@@ -29,10 +29,25 @@ class Stereoimage:
     def mod_depth(self, map):
         for x in range(self.x_dim):
             for y in range(self.y_dim):
+                
+
+                
                 depth = self.__pixel_to_depth(map.getpixel((x,y)))
                 shift = self.seg_width - depth
 
-                self.canvas.putpixel((x,y), self.canvas.getpixel((x-shift,y)))
+
+
+                #self.canvas.putpixel((x,y), self.segment.getpixel((seg_shift,y)))
+                if (x-shift > 0):
+                    self.canvas.putpixel((x,y), self.canvas.getpixel((x-shift,y)))
+                else:
+                    x_in_seg = x % self.seg_width
+                    seg_shift = x_in_seg - shift
+                    if seg_shift < 0:
+                        seg_shift = self.seg_width + seg_shift
+                    
+                    self.canvas.putpixel((x,y), self.segment.getpixel((seg_shift,y)))
+
     
     def get_canvas(self):
         return self.canvas
